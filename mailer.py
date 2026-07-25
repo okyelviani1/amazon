@@ -17,12 +17,12 @@ import re
 # ==========================================
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 587
-SMTP_USER = "nafalmumtaz93@gmail.com"
-SMTP_PASS = "bfowjdqajftucsee"
+SMTP_USER = os.getenv("SMTP_USER", "nafalmumtaz93@gmail.com")
+SMTP_PASS = os.getenv("SMTP_PASS", "")
 SENDER_NAME = "Amazon Account Services"
-SENDER_EMAIL = SMTP_USER
-REPLY_TO_EMAIL = SMTP_USER
-BOUNCE_ADDRESS = SMTP_USER
+SENDER_EMAIL = os.getenv("SENDER_EMAIL", SMTP_USER)
+REPLY_TO_EMAIL = os.getenv("REPLY_TO_EMAIL", SMTP_USER)
+BOUNCE_ADDRESS = os.getenv("BOUNCE_ADDRESS", SMTP_USER)
 
 # ==========================================
 # PENGATURAN BROADCAST EMAIL
