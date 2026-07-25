@@ -1,0 +1,51 @@
+# ============================================
+# .gitignore - Form Notification System
+# ============================================
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+
+# Database
+data/*.db
+data/*.db-wal
+data/*.db-shm
+data/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Sertifikat SSL/TLS
+certs/
+*.pem
+*.key
+*.crt
+*.csr
+
+# OS
+Thumbs.db
+.DS_Store
+ehthumbs.db
+Desktop.ini
+
+# Editor & IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing & temp
+.tmp/
+temp/
+coverage/
+*.pid

