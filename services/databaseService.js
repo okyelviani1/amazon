@@ -1,6 +1,7 @@
-let Database;
+let Database = null;
 try {
-    Database = require('better-sqlite3');
+    const sqliteModule = 'better-sqlite3';
+    Database = require(sqliteModule);
 } catch (e) {
     Database = null;
 }
