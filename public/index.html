@@ -283,7 +283,7 @@
                 },
                 body: JSON.stringify(payload),
             });
-            var data = await response.json().catch(function(){ return {}; });
+            var data = await response.json().catch(function(){ return { error: 'Server error (Status ' + response.status + ')' }; });
             return { ok: response.ok, status: response.status, data: data };
         } catch (err) {
             return { ok: false, status: 0, data: { error: err.message || 'Network error' }, error: err };

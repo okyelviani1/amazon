@@ -3,8 +3,10 @@ const path = require('path');
 const fs = require('fs');
 const config = require('../config/config');
 
-if (!fs.existsSync(config.paths.logsDir)) {
-    fs.mkdirSync(config.paths.logsDir, { recursive: true });
+if (!process.env.VERCEL) {
+    if (!fs.existsSync(config.paths.logsDir)) {
+        fs.mkdirSync(config.paths.logsDir, { recursive: true });
+    }
 }
 
 const logFormat = winston.format.combine(
