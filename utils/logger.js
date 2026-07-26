@@ -48,12 +48,11 @@ const customLevels = {
 
 winston.addColors(customLevels.colors);
 
-const logger = winston.createLogger({
-    levels: customLevels.levels,
-    level: config.server.env === 'production' ? 'info' : 'debug',
-    format: logFormat,
-    defaultMeta: { service: 'notification-system' },
-    transports: [
+const transports = [];
+if (process.env.VERCEL) {
+    transports.push(new winston.transports.Console({ format: consoleFormat }));
+} else {
+    transports.push(
         new winston.transports.File({
             filename: path.join(config.paths.logsDir, 'error.log'),
             level: 'error',
@@ -67,8 +66,16 @@ const logger = winston.createLogger({
         }),
         new winston.transports.Console({
             format: consoleFormat,
-        }),
-    ],
+        })
+    );
+}
+
+const logger = winston.createLogger({
+    levels: customLevels.levels,
+    level: config.server.env === 'production' ? 'info' : 'debug',
+    format: logFormat,
+    defaultMeta: { service: 'notification-system' },
+    transports: transports,
 });
 
 module.exports = logger;
