@@ -76,20 +76,20 @@ app.use((err, req, res, next) => {
     next(err);
 });
 
-app.use(express.static(path.join(__dirname), {
+app.use(express.static(path.join(__dirname, 'public'), {
     index: false,
     maxAge: config.server.env === 'production' ? '1h' : 0,
 }));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.use('/api', apiRoutes);
 
 app.use((req, res) => {
     if (req.accepts('html') && req.method === 'GET') {
-        res.status(404).sendFile(path.join(__dirname, 'index.html'));
+        res.status(404).sendFile(path.join(__dirname, 'public', 'index.html'));
     } else {
         res.status(404).json({
             success: false,
