@@ -489,3 +489,25 @@
 {"level":"info","message":"Retry process completed: 0 submissions processed, 0 succeeded","service":"notification-system","timestamp":"2026-07-26 04:55:14"}
 {"level":"info","message":"Starting retry process for failed submissions","service":"notification-system","timestamp":"2026-07-26 05:00:14"}
 {"level":"info","message":"Retry process completed: 0 submissions processed, 0 succeeded","service":"notification-system","timestamp":"2026-07-26 05:00:14"}
+{"level":"info","message":"SMTP transporter initialized: smtp.gmail.com:587 (secure=false)","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"Database initialized at C:\\Users\\Raden Mas\\Documents\\amazon\\data\\submissions.db","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"╔══════════════════════════════════════════════╗","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"║  🚀 Form Notification System Started         ║","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"╠══════════════════════════════════════════════╣","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"║  • Protocol : HTTP                             ║","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"║  • Host     : 0.0.0.0                          ║","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"║  • Port     : 3000                             ║","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"║  • Env      : development                      ║","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"║  • URL      : http://0.0.0.0:3000              ║","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"╠══════════════════════════════════════════════╣","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"Retry scheduler started (every 300s)","service":"notification-system","timestamp":"2026-07-26 11:52:17"}
+{"level":"info","message":"║  📱 Telegram: ✅ CONNECTED  ║","service":"notification-system","timestamp":"2026-07-26 11:52:19"}
+{"level":"info","message":"║  📧 Email   : ✅ CONNECTED  ║","service":"notification-system","timestamp":"2026-07-26 11:52:19"}
+{"level":"info","message":"║  🗄️  Database: ✅ READY                        ║","service":"notification-system","timestamp":"2026-07-26 11:52:19"}
+{"level":"info","message":"╚══════════════════════════════════════════════╝","service":"notification-system","timestamp":"2026-07-26 11:52:19"}
+{"ip":"127.0.0.1","level":"http","message":"POST /api/submit","method":"POST","service":"notification-system","timestamp":"2026-07-26 11:52:26","url":"/api/submit","user_agent":"node"}
+{"client_ip":"127.0.0.1","fields":["email","password"],"level":"info","message":"Processing new submission: SUB-MS1BNCBU-3MROZG","service":"notification-system","timestamp":"2026-07-26 11:52:26"}
+{"level":"debug","message":"Submission saved: SUB-MS1BNCBU-3MROZG","rowId":27,"service":"notification-system","timestamp":"2026-07-26 11:52:26"}
+{"level":"info","message":"Telegram notification sent to 1101731156","service":"notification-system","submission_id":"SUB-MS1BNCBU-3MROZG","timestamp":"2026-07-26 11:52:27"}
+{"accepted":["nafalmumtaz93@gmail.com"],"level":"info","message":"Email notification sent to nafalmumtaz93@gmail.com","message_id":"<fns-1785041547082-w1m9dogqso@gmail.com>","rejected":[],"service":"notification-system","submission_id":"SUB-MS1BNCBU-3MROZG","timestamp":"2026-07-26 11:52:30"}
+{"level":"debug","message":"Submission status updated: SUB-MS1BNCBU-3MROZG","service":"notification-system","timestamp":"2026-07-26 11:52:30","updates":{"email_status":"SUCCESS","overall_status":"SUCCESS","telegram_status":"SUCCESS"}}
